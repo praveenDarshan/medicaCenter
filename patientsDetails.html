@@ -1,0 +1,108 @@
+<head>
+
+  <title>
+  
+  AngularJs $http.post() Service Response Example
+  
+  </title>
+  
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  
+  <script type="text/javascript">
+  
+  var app = angular.module('postserviceApp', []);
+  
+  app.controller('postserviceCtrl', function ($scope, $http) {
+  
+  $scope.name = null;
+  
+  $scope.nic = null;
+  
+  $scope.phone = null;
+  
+  $scope.adress = null;
+  
+  $scope.bday = null;
+  
+  $scope.lblMsg = null;
+  
+  $scope.postdata = function (name, nic,phone,adress,bday) {
+  
+  var data = {
+  
+  name: name,
+  
+  nic: nic,
+  
+  phone:phone,
+  
+  adress: adress,
+  
+  bday:bday
+  
+  };
+  
+  //Call the services
+  
+  $http.post('http://192.168.1.100:5011/predict', JSON.stringify(data)).then(function (response) {
+  
+  if (response.data)
+  
+  $scope.msg = "Post Data Submitted Successfully!";
+  
+  }, function (response) {
+  
+  $scope.msg = "Service not Exists";
+  
+  $scope.statusval = response.status;
+  
+  $scope.statustext = response.statusText;
+  
+  $scope.headers = response.headers();
+  
+  });
+  
+  };
+  
+  });
+  
+  </script>
+  
+  </head>
+<div class="container" ng-app="postserviceApp" ng-controller="postserviceCtrl">  
+        
+
+        <form id="contact" action="" method="post">
+               
+          <h3>Patient's Details</h3>
+    
+          <link rel="stylesheet" href="css\test2\test2.css">
+          
+          <!--<h4>Contact us for custom quote</h4>**-->
+    
+          
+             
+    <!--add new patient-->
+          <fieldset>
+            <input ng-model="name" placeholder="Name" type="text" tabindex="1" required autofocus>
+          </fieldset>
+          <fieldset>
+             <fieldset>
+                 <input ng-model="nic" placeholder="NIC " type="text" tabindex="2" required autofocus>
+                  </fieldset>
+            <input input ng-model="phone" placeholder=" Phone Number (optional)" type="tel" tabindex="3" required>
+          </fieldset>
+          
+          <fieldset>
+            <input ng-model="adress" placeholder="Address" type="text" tabindex="4" required>
+          </fieldset>
+          <fieldset>
+            <input input ng-model="bday"  placeholder=" Birthday" type="date" tabindex="5" required>
+          </fieldset>
+          <fieldset>
+            <button ng-click="postdata(name, nic,phone, adress,bday)" name="submit" type="button" id="contact-submit" data-submit="...Sending">Submit</button>
+          </fieldset>
+          
+    
+    
+        </form>
